@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload de Planilha</title>
+<style>
+    body {
+        display: flex;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    .left {
+        background-color: #FFA500; /* Laranja */
+        color: white;
+        padding: 10px;
+        width: 200px;
+        font-size: 10px;
+    }
+    .center {
+        flex: 1;
+        padding: 20px;
+        background-color: rgb(212, 207, 207);
+        text-align: center;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+    }
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        padding: 10px;
+        margin: 10px;
+        text-align: left;
+        box-sizing: border-box;
+        font-size: 8px;
+        max-width: calc(33.33% - 20px);
+        width: 100%;
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .card div {
+        margin-bottom: 5px;
+    }
+    .filters {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    .filter-input {
+        margin: 5px;
+        padding: 5px;
+        font-size: 10px;
+        width: 120px;
+    }
+    #cardsContainer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .bold{
+        font-weight: bold 20px;
+        position:center;
+
+
+        color: #fff;
+
+
+
+
+       
+    }
+
+
+    .lista ul {
+        padding-left: 0;
+        list-style-position: inside;
+        margin: 2px;
+        font-size: 8px;
+
+
+    }
+
+
+    .lista {
+            list-style-type: disc; /* Usar marcadores padrão de disco (círculo) */
+            list-style-position: inside; /* Garantir que os marcadores sejam copiáveis */
+            padding-left: 0; /* Remover o recuo adicional */
+        }
+
+
+    h2,h3 {
+        margin:0;
+        padding:0;
+    }
+
+
+    h3 {
+        font-size: 10px;
+    }
+
+
+
+
+
+
+</style>
+</head>
+<body>
+
+
+
+
+<div class="left">
+    <h2> <span class ="bold">Para se Cadastrar:</span></h2>
+    <h3>Precisaremos : </h3>
+    <div class="lista">
+        <ul class="lista" id="lista">
+            <li>CNH - Digital ou com a foto légivel do QR Code </li>
+            <li>CRLV - Digital ou com foto légivel do QR Code </li>
+            <li>Comprovante de residência </li>
+            <li>ANTT</li>
+            <li>3 contatos pessoais (parente ou amigo)</li>
+            <li>3 contatos profissionais </li>
+           
+            <P>-------------------------------------------------------------------------</P>
+           
+           
+
+
+       
+        </ul>
+    </div>
+
+
+    <h2> <span class ="bold">Para encaminhar contra oferta :</span></h2>
+
+
+    <div class="lista">
+        <ul>
+            <li onclick="copyToClipboard('Nome completo do motorista:')">Nome completo do motorista :</li>
+            <li onclick="copyToClipboard('Telefone do Motorista')">Telefone do Motorista</li>
+            <li onclick="copyToClipboard('Placa veículo (se for carreta : Cavalo e carroceria)')">Placa veículo (se for carreta : Cavalo e carroceria)</li>
+            <li onclick="copyToClipboard('Valor da contra oferta:')">Valor da contra oferta:</li>
+        </ul>
+    </div>
+   
+    <div class="lista">
+        <ul>
+            <li>Nome completo do motorista :  </li>
+            <li>Telefone do Motorista  </li>
+            <li>Placa veículo (se for carreta : Cavalo e carroceria ) </li>
+            <li>Valor da contra oferta: </li>
+           
+            <P>-------------------------------------------------------------------------</P>
+
+
+           
+
+
+    </div>
+
+
+    <h2> <span class ="bold">Validação ASA :</span></h2>
+
+
+    <div class="lista">
+        <ul>
+            <li>Devoluções parciais e totais serão negociados retorno a origem com embarcador </li>
+            <li>Avarias de transportes serão debitadas automaticamente do saldo ou retornadas a origem.</li>
+            <li>Diárias CARRETA R$ 300,00 TRUCK R$ 150,00</li>
+            <li>Paletes devem ser devolvidos nos operadores logísticos mais próximo</li>
+            <li>Em caso de paletes ficarem retidos no cliente, é necessário o envio do vale palete pelos correrios para origem e envio da foto do rastreio </li>
+            <li>Orientamos registros fotográficos e áudio visuais do carregamento, descarga, saída do embarcador e chegada ao clientes, para em caso de falta, certificarmos o veiculo lacrado.
+            </li>
+           
+            <P>-------------------------------------------------------------------------</P>
+
+
+        </ul>
+    </div>
+   
+</div>
+<div class="center">
+    <div class="container">
+        <h1>Upload de Planilha</h1>
+        <input type="file" id="fileInput" class="filter-input">
+        <div class="filters">
+            <select id="filterEmpresa" class="filter-input">
+                <option value="">Selecione a empresa</option>
+            </select>
+            <select id="filterOrigem" class="filter-input">
+                <option value="">Selecione a origem</option>
+            </select>
+            <select id="filterDestino" class="filter-input">
+                <option value="">Selecione o destino</option>
+            </select>
+            <select id="filterStatus" class="filter-input">
+                <option value="">Selecione o status</option>
+                <option value="Em oferta">Em oferta</option>
+                <option value="Em negociação">Em negociação</option>
+            </select>
+        </div>
+        <div id="cardsContainer"></div>
+    </div>
+</div>
+<script>
+    let rowsData = [];
+   
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+   
+        reader.onload = function(event) {
+            const data = new Uint8Array(event.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            rowsData = XLSX.utils.sheet_to_json(sheet);
+   
+            populateFilters();
+            displayCards(rowsData);
+        };
+   
+        reader.readAsArrayBuffer(file);
+    });
+   
+    function populateFilters() {
+        const empresas = [...new Set(rowsData.map(row => row.Empresa))];
+        const origens = {};
+        const destinos = {};
+   
+        const filterEmpresa = document.getElementById('filterEmpresa');
+        const filterOrigem = document.getElementById('filterOrigem');
+        const filterDestino = document.getElementById('filterDestino');
+   
+        filterEmpresa.innerHTML = '<option value="">Selecione a empresa</option>';
+        filterOrigem.innerHTML = '<option value="">Selecione a origem</option>';
+        filterDestino.innerHTML = '<option value="">Selecione o destino</option>';
+   
+        empresas.forEach(empresa => {
+            const option = document.createElement('option');
+            option.value = empresa;
+            option.text = empresa;
+            filterEmpresa.add(option);
+   
+            origens[empresa] = new Set();
+            destinos[empresa] = new Set();
+        });
+   
+        rowsData.forEach(row => {
+            origens[row.Empresa].add(row.Origem);
+            destinos[row.Empresa].add(row.Destino);
+        });
+   
+        filterEmpresa.addEventListener('change', function() {
+            const selectedEmpresa = this.value;
+            filterOrigem.innerHTML = '<option value="">Selecione a origem</option>';
+            filterDestino.innerHTML = '<option value="">Selecione o destino</option>';
+   
+            if (selectedEmpresa) {
+                origens[selectedEmpresa].forEach(origem => {
+                    const option = document.createElement('option');
+                    option.value = origem;
+                    option.text = origem;
+                    filterOrigem.add(option);
+                });
+   
+                destinos[selectedEmpresa].forEach(destino => {
+                    const option = document.createElement('option');
+                    option.value = destino;
+                    option.text = destino;
+                    filterDestino.add(option);
+                });
+            }
+        });
+    }
+   
+    document.querySelectorAll('.filter-input').forEach(filter => {
+        filter.addEventListener('input', filterCards);
+    });
+   
+    function filterCards() {
+        const filterEmpresa = document.getElementById('filterEmpresa').value.toLowerCase();
+        const filterOrigem = document.getElementById('filterOrigem').value.toLowerCase();
+        const filterDestino = document.getElementById('filterDestino').value.toLowerCase();
+        const filterStatus = document.getElementById('filterStatus').value.toLowerCase();
+   
+        const filteredData = rowsData.filter(row =>
+            (!filterEmpresa || row.Empresa.toLowerCase() === filterEmpresa) &&
+            (!filterOrigem || row.Origem.toLowerCase() === filterOrigem) &&
+            (!filterDestino || row.Destino.toLowerCase() === filterDestino) &&
+            (!filterStatus || (row.Status && row.Status.toLowerCase() === filterStatus))
+        );
+   
+        displayCards(filteredData);
+    }
+   
+    function displayCards(data) {
+        const cardsContainer = document.getElementById('cardsContainer');
+        cardsContainer.innerHTML = '';
+   
+        data.forEach(function(row) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.innerHTML = `
+                <div><strong>Nº Oferta:</strong> ${row['Nº Carga'] || ''}</div>
+                <div><strong>Empresa:</strong> ${row.Empresa || ''}</div>
+                <div><strong>Origem:</strong> ${row.Origem || ''}</div>
+                <div><strong>Destino:</strong> ${row.Destino || ''}</div>
+                <div><strong>Valor:</strong> ${row['Valor do Frete'] || ''}</div>
+                <div><strong>Peso:</strong> ${row.Peso || ''}</div>
+                <div><strong>Tipo Veículo:</strong> ${row['Perfil do Veículo'] || ''} ${row['Perfil da Carroceria'] || ''}</div>
+                <div><strong>Observações:</strong> ${row.Observação || ''}</div>
+            `;
+   
+            cardsContainer.appendChild(card);
+        });
+    }
+
+
+
+
+   
+
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+
+    <script>
+        function copyList() {
+            const lista = document.getElementById('lista');
+            const items = lista.getElementsByTagName('li');
+            let textToCopy = '';
+            for (let i = 0; i < items.length; i++) {
+                textToCopy += '• ' + items[i].innerText + '\n';
+            }
+           
+            const textarea = document.createElement('textarea');
+            textarea.value = textToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+           
+            alert('Lista copiada para a área de transferência');
+        }
+    </script>
+   
+
+
+    </body>
+    </html>
+
